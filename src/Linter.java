@@ -11,9 +11,10 @@ public class Linter {
     if (line.contains("}") || line.contains("{") || line.length() == 0) {
       return false;
     }
-    else {
+    else if(line.substring(line.lenght - 1) != ";") {
       return true;
     }
+    return true;
   }
 
   // Main method, opens the file and iterates over each line and uses the
