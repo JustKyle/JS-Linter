@@ -1,12 +1,13 @@
 
 import java.io.*;
+import java.util.regex.*;
 
 public class Linter {
 
   // Trims all trailing whitespace and checks if the line in the file contains
   // a {, }, or is empty. If the line doesn't contain these then it checks if
   // the line contains a semicolon, if it does the method returns false.
-  public static boolean checkLine(String line) {
+  public static boolean checkForSemi(String line) {
     if (line.trim().endsWith("}") || line.trim().endsWith("{") || line.length() == 0) {
       return false;
     }
@@ -16,6 +17,13 @@ public class Linter {
     else {
       return true;
     }
+  }
+
+  public static boolean checkForWhite(String line) {
+    Pattern whitespace = Pattern.compile(".*\\s+");
+    Matcher m = whitespace.matcher(line);
+    return m.matches();
+
   }
 
   // Main method, opens the file and iterates over each line and uses the
@@ -29,12 +37,21 @@ public class Linter {
       BufferedReader bufferedReader = new BufferedReader(fileReader);
 
       int lineNum = 1;
+      String lastLine = "";
 
       while ((line = bufferedReader.readLine()) != null) {
-        if (checkLine(line)) {
-          System.out.println(lineNum + ". Statement should end with a semicolon");
+        if (checkForWhite(line)) {
+          System.out.println(lineNum + ". Statement should not have trailing whitespace.");
+        }
+        else if (checkForSemi(line)) {
+        System.out.println(lineNum + ". Statement should end with a semicolon");
         }
         lineNum++;
+        lastLine = line;
+      }
+
+      if(lastLine.charAt(0) == '\n') {
+        System.out.println(lineNum +". File "+ args[0] + " should end with a newline character.");
       }
       bufferedReader.close();
     }
