@@ -19,6 +19,9 @@ public class Linter {
     }
   }
 
+  // Uses the regex key for trailing whitespace to determine if a line of code
+  // contains unnecessary trailing whitespace. If it does contain whitespace
+  // then the method returns true.
   public static boolean checkForWhite(String line) {
     Pattern whitespace = Pattern.compile(".*\\s+");
     Matcher m = whitespace.matcher(line);
@@ -43,14 +46,14 @@ public class Linter {
         if (checkForWhite(line)) {
           System.out.println(lineNum + ". Statement should not have trailing whitespace.");
         }
-        else if (checkForSemi(line)) {
+        if (checkForSemi(line)) {
         System.out.println(lineNum + ". Statement should end with a semicolon");
         }
         lineNum++;
         lastLine = line;
       }
 
-      if(lastLine.charAt(0) == '\n') {
+      if(lastLine.charAt(0) != '\n') {
         System.out.println(lineNum +". File "+ args[0] + " should end with a newline character.");
       }
       bufferedReader.close();
