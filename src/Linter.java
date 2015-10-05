@@ -26,7 +26,20 @@ public class Linter {
     Pattern whitespace = Pattern.compile(".*\\s+");
     Matcher m = whitespace.matcher(line);
     return m.matches();
+  }
 
+  public static void checkBrackets(String line, int lineNum) {
+    if(line.trim().endsWith("{")) {
+      if(line.indexOf("{") == 0) {
+        System.out.println(lineNum + ". Open curly brace should not stand-alone.");
+      }
+    }
+    if(line.trim().endsWith("}")) {
+      line = line.replaceAll("^\\s+", "");
+      if(line.indexOf("}") != 0 && line.charAt(1) != '\n') {
+        System.out.println(lineNum + ". Closing curly brace should stand-alone.");
+      }
+    }
   }
 
   // Main method, opens the file and iterates over each line and uses the
@@ -49,6 +62,7 @@ public class Linter {
         if (checkForSemi(line)) {
         System.out.println(lineNum + ". Statement should end with a semicolon");
         }
+        checkBrackets(line, lineNum);
         lineNum++;
         lastLine = line;
       }
