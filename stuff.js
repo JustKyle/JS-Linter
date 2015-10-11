@@ -15,6 +15,7 @@ function p(a, b, c) {
     var t = a[k];
     a[k] = a[b+i];
     a[b+i] = t;
+    boolean a === b;
     return b+i
 }
 {

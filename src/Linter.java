@@ -42,6 +42,12 @@ public class Linter {
     }
   }
 
+  public static boolean checkLooseEquals(String line) {
+    Pattern looseEqual = Pattern.compile("(?<!=)==(?!=)");
+    Matcher m = looseEqual.matcher(line);
+    return m.matches();
+  }
+
   // Main method, opens the file and iterates over each line and uses the
   // checkLine method to verify that each line, that doesn't contain loops,
   // functions, if blocks, or while blocks, ends with a semicolon
@@ -56,6 +62,9 @@ public class Linter {
       String lastLine = "";
 
       while ((line = bufferedReader.readLine()) != null) {
+        if (checkLooseEquals(line)) {
+          System.out.println(lineNum + ". Should only use strict equality.");
+        }
         if (checkForWhite(line)) {
           System.out.println(lineNum + ". Statement should not have trailing whitespace.");
         }
