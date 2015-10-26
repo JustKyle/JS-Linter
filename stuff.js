@@ -29,6 +29,9 @@ function s(a, b, c) { }
     return a;}
 }
 
+var x = "guten tag";
+var y = 'bonjour';
+var t = "How you doin'";
 var a = [4,3,2,1]
 console.log(a);
 a = s(a, 0, 3)
