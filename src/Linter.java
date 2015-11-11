@@ -74,7 +74,10 @@ public class Linter {
       String lastLine = "";
 
       while ((line = bufferedReader.readLine()) != null) {
-        if (checkQuotes(line, lineNum)) {
+    	if (line.length() >= 80) {
+    		System.out.println(lineNum + ". Lines should not be longer than 80 characters.");
+    	}
+        if (checkQuotes(line)) {
           System.out.println(lineNum + ". Should use single quotes.");
         }
         if (checkLooseEquals(line)) {
